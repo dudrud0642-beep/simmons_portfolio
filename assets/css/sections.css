@@ -1,0 +1,1241 @@
+/*
+ * SIMMONS PORTFOLIO — SECTIONS (sections.css)
+ * One block per section, in page order. Each block keeps its own responsive
+ * rules right below it (1100px · 900px · 600px).
+ *
+ *   1. Hero            4. Find rest       7. Stores
+ *   2. Promotions      5. Collections
+ *   3. Intro           6. Journal (brand archive)
+ */
+
+/* =========================================================================
+   1. Hero
+   ========================================================================= */
+.hero {
+  position: relative;
+  height: max(720px, 100svh);
+  overflow: hidden;
+}
+
+.hero-slider,
+.hero-slide {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-slide {
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    opacity 1s ease,
+    visibility 1s;
+}
+
+.hero-slide.is-active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.hero-slide > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.04);
+  transition: transform 7s linear;
+}
+
+.hero-slide.is-active > img {
+  transform: scale(1);
+}
+
+.hero-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.7) 0,
+      rgba(0, 0, 0, 0.1) 50%,
+      rgba(0, 0, 0, 0.15)
+    ),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.55), transparent 45%);
+}
+
+.hero-copy {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: var(--pad);
+  max-width: 750px;
+  transform: translateY(-42%);
+}
+
+.hero-copy .eyebrow {
+  margin-bottom: 22px;
+  color: #fff;
+}
+
+.hero-copy h1,
+.hero-copy h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(54px, 7vw, 108px);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 0.88;
+  letter-spacing: -0.065em;
+}
+
+.hero-copy h1 span,
+.hero-copy h2 span {
+  font-family: Inter, sans-serif;
+  font-size: 0.72em;
+  font-style: normal;
+  letter-spacing: -0.055em;
+}
+
+.hero-copy .text-link {
+  padding-bottom: 7px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+/* Copy rises in each time a slide becomes active */
+.hero-slide .hero-copy .eyebrow,
+.hero-slide .hero-copy h1,
+.hero-slide .hero-copy h2,
+.hero-slide .hero-copy .text-link {
+  opacity: 0;
+  transform: translateY(48px);
+}
+
+.hero-slide.is-active .hero-copy .eyebrow {
+  animation: hero-copy-rise 0.72s 0.12s var(--ease) both;
+}
+
+.hero-slide.is-active .hero-copy h1,
+.hero-slide.is-active .hero-copy h2 {
+  animation: hero-copy-rise 0.95s 0.24s var(--ease) both;
+}
+
+.hero-slide.is-active .hero-copy .text-link {
+  animation: hero-copy-rise 0.75s 0.52s var(--ease) both;
+}
+
+@keyframes hero-copy-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(48px) skewY(2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Arrows + dots */
+.hero-navigation {
+  position: absolute;
+  z-index: 4;
+  bottom: 48px;
+  left: var(--pad);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.hero-navigation > button {
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.15);
+  color: #fff;
+  cursor: pointer;
+}
+
+.hero-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.hero-dots button {
+  width: 24px;
+  height: 2px;
+  padding: 0;
+  border: 0;
+  background: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition:
+    width 0.35s,
+    background 0.35s;
+}
+
+.hero-dots button.is-active {
+  width: 50px;
+  background: #fff;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    height: 88svh;
+    min-height: 650px;
+  }
+
+  .hero-copy {
+    top: auto;
+    bottom: 90px;
+    transform: none;
+  }
+
+  .hero-copy h1,
+  .hero-copy h2 {
+    font-size: clamp(44px, 10vw, 68px);
+  }
+
+  .hero-navigation {
+    right: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero {
+    height: 82svh;
+  }
+
+  .hero-copy .eyebrow {
+    font-size: 9px;
+  }
+
+  .hero-copy h1,
+  .hero-copy h2 {
+    font-size: clamp(40px, 11.5vw, 48px);
+  }
+
+  .hero-navigation > button {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide.is-active .hero-copy .eyebrow,
+  .hero-slide.is-active .hero-copy h1,
+  .hero-slide.is-active .hero-copy h2,
+  .hero-slide.is-active .hero-copy .text-link {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* =========================================================================
+   2. Promotions (new arrival + online offer)
+   ========================================================================= */
+.promotions {
+  padding-bottom: clamp(36px, 4vw, 64px);
+  background: #090909;
+}
+
+.promotions-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: clamp(34px, 5vw, 64px);
+}
+
+.promotions-head h2 {
+  margin-top: 12px;
+}
+
+.promotion-grid {
+  display: grid;
+  grid-template-columns: 1.28fr 0.72fr;
+  gap: clamp(14px, 1.8vw, 28px);
+}
+
+.promotion-card {
+  position: relative;
+  display: block;
+  min-height: clamp(430px, 45vw, 650px);
+  overflow: hidden;
+  color: #fff;
+}
+
+.promotion-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.8s var(--ease);
+}
+
+.promotion-card-online img {
+  object-position: 57% center;
+}
+
+.promotion-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.08) 25%,
+    rgba(0, 0, 0, 0.78) 100%
+  );
+  transition: background 1s ease;
+}
+
+.promotion-badge {
+  position: absolute;
+  top: clamp(20px, 2.5vw, 34px);
+  left: clamp(20px, 2.5vw, 34px);
+  padding: 9px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 100px;
+  background: rgba(0, 0, 0, 0.32);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+}
+
+.promotion-copy {
+  position: absolute;
+  right: clamp(24px, 3vw, 46px);
+  bottom: clamp(26px, 3.5vw, 52px);
+  left: clamp(24px, 3vw, 46px);
+}
+
+.promotion-copy small {
+  display: block;
+  margin-bottom: 16px;
+  color: #d6d1ca;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+}
+
+.promotion-copy strong {
+  display: block;
+  max-width: 540px;
+  font-size: clamp(29px, 3.2vw, 50px);
+  font-weight: 400;
+  line-height: 1.17;
+  letter-spacing: -0.045em;
+}
+
+.promotion-card-online .promotion-copy strong {
+  font-size: clamp(26px, 2.5vw, 39px);
+}
+
+.promotion-copy > span {
+  display: inline-flex;
+  gap: 18px;
+  align-items: center;
+  margin-top: 28px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+  font-size: 11px;
+}
+
+.promotion-copy i {
+  font-style: normal;
+  transition: transform 0.75s var(--ease);
+}
+
+.promotion-card:hover img,
+.promotion-card:focus-visible img {
+  transform: scale(1.045);
+}
+
+.promotion-card:hover .promotion-shade,
+.promotion-card:focus-visible .promotion-shade {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.02) 20%,
+    rgba(0, 0, 0, 0.88) 100%
+  );
+}
+
+.promotion-card:hover .promotion-copy i,
+.promotion-card:focus-visible .promotion-copy i {
+  transform: translate(4px, -4px);
+}
+
+@media (max-width: 1100px) {
+  .promotion-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .promotion-card {
+    min-height: 0;
+    aspect-ratio: 16 / 8.5;
+  }
+
+  .promotion-card-online .promotion-copy strong {
+    font-size: clamp(30px, 4.2vw, 44px);
+  }
+}
+
+@media (max-width: 600px) {
+  .promotions {
+    padding-bottom: 32px;
+  }
+
+  .promotions-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: var(--heading-gap);
+  }
+
+  .promotion-card {
+    min-height: 390px;
+    aspect-ratio: auto;
+  }
+
+  .promotion-copy strong,
+  .promotion-card-online .promotion-copy strong {
+    font-size: 28px;
+  }
+}
+
+/* =========================================================================
+   3. Intro — "좋은 밤을 만드는 세 가지 기준"
+   ========================================================================= */
+.intro {
+  padding-top: clamp(36px, 4vw, 64px);
+  background: #000;
+}
+
+.intro .eyebrow {
+  padding-top: 18px;
+}
+
+.intro-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 58px;
+}
+
+.intro-head h2 {
+  margin-top: 14px;
+}
+
+/* Fixed background: .intro-bg is pinned to the viewport and the box shows it
+   through its clip-path window, so the photo stays still while the page scrolls.
+   (Same look as background-attachment: fixed, but composited on the GPU and
+   supported on iOS.) clip-path, not overflow, is what clips a fixed child. */
+.intro-experience {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  min-height: min(620px, 66vw);
+  overflow: hidden;
+  border-radius: 12px;
+  clip-path: inset(0 round 12px);
+}
+
+/* A transform would turn the fixed layer into a normal one, so this box only fades in. */
+.intro-experience.reveal {
+  transform: none;
+}
+
+.intro-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100lvh;
+  background: #111 url("../images/simmons/intro.jpg") center 40% / cover
+    no-repeat;
+  pointer-events: none;
+}
+
+.intro-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.68));
+}
+
+/* Three panels; the active one (hover/focus, main.js) shows its text */
+.intro-panel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 34px;
+  border-right: 1px solid rgba(255, 255, 255, 0.25);
+  outline: 0;
+  transition: background 0.45s;
+}
+
+.intro-panel:last-child {
+  border: 0;
+}
+
+.intro-panel small {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+}
+
+.intro-panel h3 {
+  margin-top: 12px;
+  font-size: clamp(27px, 2.5vw, 40px);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.05em;
+  opacity: 0.4;
+  transition:
+    opacity 0.35s,
+    transform 0.45s var(--ease);
+}
+
+.intro-panel p {
+  max-width: 290px;
+  max-height: 0;
+  margin-top: 20px;
+  overflow: hidden;
+  color: #ddd;
+  font-size: clamp(14px, 1.05vw, 16px);
+  line-height: 1.75;
+  opacity: 0;
+  transition: 0.45s var(--ease);
+}
+
+.intro-panel.is-active {
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.intro-panel.is-active h3 {
+  opacity: 1;
+  transform: translateY(-4px);
+}
+
+.intro-panel.is-active p {
+  max-height: 100px;
+  opacity: 1;
+}
+
+@media (max-width: 1100px) {
+  .intro-experience {
+    display: flex;
+    flex-direction: column;
+    min-height: 660px;
+  }
+
+  .intro-panel {
+    flex: 1;
+    min-height: 0;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.24);
+  }
+
+  .intro-panel h3 br {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .intro-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .intro-head .pill-link {
+    width: max-content;
+    margin: 0;
+  }
+
+  .intro-experience {
+    min-height: 560px;
+  }
+
+  .intro-panel {
+    padding: 25px;
+  }
+}
+
+@media (max-width: 600px) {
+  .intro {
+    padding-top: 32px;
+  }
+
+  .intro .eyebrow {
+    padding: 0;
+  }
+
+  .intro-head {
+    margin-bottom: var(--heading-gap);
+  }
+
+  .intro-experience {
+    min-height: 620px;
+  }
+
+  .intro-panel {
+    padding: 18px 20px;
+  }
+
+  .intro-panel p {
+    margin-top: 8px;
+  }
+}
+
+/* =========================================================================
+   4. Find rest — "나에게 맞는 휴식 찾기"
+   ========================================================================= */
+.find-rest {
+  padding: clamp(75px, 8vw, 120px) var(--pad) clamp(100px, 11vw, 170px);
+  background: var(--panel);
+}
+
+/* Shared by find-rest and journal headings */
+.section-heading {
+  margin: 0 auto clamp(50px, 6vw, 90px);
+  text-align: center;
+}
+
+.section-heading h2 {
+  margin: 12px 0 18px;
+}
+
+.section-heading > p:last-child {
+  color: var(--soft);
+  font-size: clamp(16px, 1.25vw, 19px);
+  line-height: 1.8;
+}
+
+.find-rest .section-heading {
+  max-width: none;
+  margin: 0 0 38px;
+  text-align: left;
+}
+
+.find-rest .section-heading h2 {
+  margin-bottom: 10px;
+}
+
+/* Two cards; the hovered one widens */
+.category-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  transition: grid-template-columns 0.85s var(--ease);
+}
+
+.category-grid:has(.category-card:first-child:hover) {
+  grid-template-columns: 1.18fr 0.82fr;
+}
+
+.category-grid:has(.category-card:last-child:hover) {
+  grid-template-columns: 0.82fr 1.18fr;
+}
+
+.category-card {
+  position: relative;
+  min-width: 0;
+  height: clamp(420px, 46vw, 680px);
+  overflow: hidden;
+}
+
+.category-card img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.72), transparent 58%);
+}
+
+.category-copy {
+  position: absolute;
+  bottom: clamp(25px, 4vw, 60px);
+  left: clamp(25px, 4vw, 60px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.category-copy small {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+}
+
+.category-copy strong {
+  margin: 8px 0 22px;
+  font-size: clamp(36px, 4vw, 58px);
+  font-weight: 400;
+  letter-spacing: -0.05em;
+}
+
+.category-copy > span {
+  padding-bottom: 7px;
+  border-bottom: 1px solid #fff;
+  font-size: 12px;
+}
+
+/* Round arrow that slides in on hover/focus */
+.category-card::after {
+  content: "→";
+  position: absolute;
+  z-index: 3;
+  right: 34px;
+  bottom: 34px;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+  font-size: 20px;
+  opacity: 0;
+  transform: translateX(-18px);
+  transition:
+    opacity 0.35s,
+    transform 0.5s var(--ease);
+}
+
+.category-card:hover::after,
+.category-card:focus-visible::after {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 900px) {
+  .category-grid,
+  .category-grid:has(.category-card:first-child:hover),
+  .category-grid:has(.category-card:last-child:hover) {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .category-card {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+}
+
+@media (max-width: 600px) {
+  .find-rest {
+    padding-top: var(--section-y);
+    padding-bottom: var(--section-y);
+  }
+
+  .find-rest .section-heading {
+    margin-bottom: var(--heading-gap);
+  }
+
+  .category-card {
+    min-height: 400px;
+    aspect-ratio: auto;
+  }
+
+  .category-copy strong {
+    margin-bottom: 16px;
+  }
+}
+
+/* =========================================================================
+   5. Collections — "더 깊은 잠을 위한 기술" (slider, main.js autoplays it)
+   ========================================================================= */
+.collections {
+  background: #000;
+}
+
+.collection-head {
+  margin-bottom: 60px;
+}
+
+.collection-head > div {
+  max-width: 1050px;
+}
+
+.collection-head h2 {
+  margin-top: 15px;
+  white-space: nowrap;
+}
+
+.collection-head > div > p {
+  max-width: 510px;
+  margin-top: 28px;
+  color: var(--soft);
+  font-size: clamp(16px, 1.25vw, 19px);
+  line-height: 1.8;
+}
+
+.collection-stage {
+  position: relative;
+}
+
+.collection-slide {
+  display: none;
+  grid-template-columns: minmax(0, 2.2fr) minmax(280px, 0.8fr);
+  min-height: 660px;
+  background: var(--panel);
+}
+
+.collection-slide.is-active {
+  display: grid;
+  animation: fade 0.55s ease;
+}
+
+.collection-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #f0ede7;
+}
+
+.collection-visual.detail {
+  background: #ddd5ca;
+}
+
+.collection-visual img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.collection-slide.is-active .collection-visual img {
+  animation: collection-in 1.3s var(--ease) both;
+}
+
+@keyframes collection-in {
+  from {
+    opacity: 0;
+    transform: scale(1.07);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.collection-info {
+  /* Lets the title size itself against this column's width (cqi below). */
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(35px, 5vw, 80px);
+}
+
+.collection-info > p {
+  color: #888;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+}
+
+/* Capped at 18% of the column's text width so one word ("Beautyrest")
+   always fits on a line, even in the narrow laptop column. */
+.collection-info h3 {
+  margin: 20px 0;
+  font-size: min(clamp(36px, 4vw, 58px), 18cqi);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.collection-info > span {
+  color: #aaa;
+  font-size: clamp(14px, 1.05vw, 16px);
+  line-height: 1.75;
+}
+
+.collection-info a {
+  margin-top: 55px;
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 7px;
+}
+
+.collection-controls {
+  position: absolute;
+  right: clamp(35px, 5vw, 80px);
+  bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.collection-controls button {
+  border: 0;
+  background: none;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.collection-controls span {
+  color: #888;
+  font-size: 10px;
+}
+
+@media (max-width: 1100px) {
+  .collection-head h2 {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 900px) {
+  .collection-head {
+    margin-bottom: 42px;
+  }
+
+  .collection-head > div > p {
+    max-width: 620px;
+    margin-top: 20px;
+  }
+
+  .collection-slide {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .collection-visual {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 16 / 7;
+  }
+
+  .collection-info {
+    min-height: 280px;
+    padding: 38px 30px 76px;
+  }
+}
+
+@media (max-width: 600px) {
+  .collection-head {
+    margin-bottom: var(--heading-gap);
+  }
+
+  .collection-visual {
+    min-height: 270px;
+    aspect-ratio: auto;
+  }
+
+  .collection-info {
+    min-height: 250px;
+    padding: 32px 22px 72px;
+  }
+}
+
+/* =========================================================================
+   6. Journal — brand archive "잠과 문화, 그 사이의 모든 것"
+   ========================================================================= */
+.journal {
+  background: #000;
+}
+
+.section-heading.align-left {
+  margin-left: 0;
+  text-align: left;
+}
+
+.journal-grid {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 12px;
+}
+
+.journal-card {
+  position: relative;
+  min-height: 360px;
+  overflow: hidden;
+  background: #111;
+}
+
+.journal-main {
+  grid-row: span 2;
+  min-height: 730px;
+}
+
+.journal-card img {
+  height: 100%;
+  object-fit: cover;
+  /* Photos sit 28% darker so the white copy stays readable. */
+  filter: brightness(0.72);
+}
+
+.journal-card > div {
+  position: absolute;
+  bottom: 28px;
+  left: 28px;
+}
+
+.journal-card small {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+
+.journal-card h3 {
+  margin-top: 10px;
+  font-size: clamp(24px, 2.5vw, 36px);
+  font-weight: 400;
+}
+
+.journal-card p {
+  margin-top: 8px;
+  color: #ddd;
+  font-size: clamp(14px, 1.05vw, 16px);
+  line-height: 1.75;
+}
+
+@media (max-width: 900px) {
+  .section-heading {
+    margin-bottom: 48px;
+  }
+
+  .journal-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .journal-card,
+  .journal-main {
+    grid-column: auto;
+    grid-row: auto;
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (max-width: 600px) {
+  .section-heading {
+    margin-bottom: var(--heading-gap);
+  }
+
+  .journal-card,
+  .journal-main {
+    min-height: 340px;
+    aspect-ratio: auto;
+  }
+
+  .journal-card > div {
+    right: 22px;
+    bottom: 22px;
+    left: 22px;
+  }
+}
+
+/* =========================================================================
+   7. Stores — "가까운 곳에서 직접 경험하세요"
+   Desktop: 3-column grid. 900px and below: swipe carousel (main.js autoplays).
+   ========================================================================= */
+.stores {
+  overflow: hidden;
+  background: var(--panel);
+}
+
+.stores-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 70px;
+}
+
+.stores-head h2 {
+  margin-top: 15px;
+}
+
+.stores-head .text-link {
+  margin-bottom: 8px;
+}
+
+.store-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.store-card .store-visual {
+  position: relative;
+  display: block;
+  height: 440px;
+  margin-bottom: 24px;
+  overflow: hidden;
+  color: #fff;
+  cursor: pointer;
+}
+
+.store-card .store-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Round arrow that slides in on hover/focus */
+.store-card .store-visual::after {
+  content: "↗";
+  position: absolute;
+  right: 22px;
+  bottom: 22px;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.28);
+  font-size: 16px;
+  opacity: 0;
+  transform: translate(-10px, 10px);
+  transition:
+    opacity 0.35s,
+    transform 0.55s var(--ease),
+    background 0.35s;
+}
+
+.store-card .store-visual:hover::after,
+.store-card .store-visual:focus-visible::after {
+  opacity: 1;
+  transform: none;
+  background: rgba(0, 0, 0, 0.42);
+}
+
+.store-card small {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+
+.store-card h3 {
+  margin: 9px 0 12px;
+  font-size: clamp(24px, 2.5vw, 36px);
+  font-weight: 400;
+}
+
+.store-card p {
+  max-width: 340px;
+  color: #999;
+  font-size: clamp(14px, 1.05vw, 16px);
+  line-height: 1.75;
+}
+
+.store-card .store-link {
+  display: inline-block;
+  margin-top: 22px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid;
+  font-size: 11px;
+}
+
+@media (max-width: 1100px) {
+  .store-card {
+    min-width: 0;
+  }
+
+  .store-card .store-visual {
+    width: 100%;
+  }
+
+  .store-card p {
+    max-width: 520px;
+  }
+}
+
+/* Tablet landscape: keep three columns */
+@media (min-width: 901px) and (max-width: 1100px) {
+  .store-gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .store-card .store-visual {
+    height: clamp(360px, 43vw, 470px);
+  }
+}
+
+/* Tablet & mobile: horizontal swipe with scroll-snap */
+@media (max-width: 900px) {
+  .stores-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 28px;
+    margin-bottom: 48px;
+  }
+
+  .stores-head .text-link {
+    width: max-content;
+    margin: 0;
+  }
+
+  .store-gallery {
+    display: flex;
+    gap: 16px;
+    margin-right: calc(var(--pad) * -1);
+    padding-right: var(--pad);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    overscroll-behavior-inline: contain;
+    touch-action: pan-x pan-y;
+    cursor: grab;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .store-gallery.is-dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+    user-select: none;
+  }
+
+  .store-gallery::-webkit-scrollbar {
+    display: none;
+  }
+
+  .store-card {
+    flex: 0 0 min(72vw, 430px);
+    scroll-snap-align: start;
+  }
+
+  .store-card .store-visual {
+    height: clamp(340px, 66vw, 460px);
+  }
+}
+
+@media (max-width: 600px) {
+  .stores-head {
+    margin-bottom: var(--heading-gap);
+  }
+
+  .store-gallery {
+    gap: 12px;
+  }
+
+  .store-card {
+    flex-basis: 78vw;
+  }
+
+  .store-card .store-visual {
+    height: min(108vw, 410px);
+  }
+}
+
+/* =========================================================================
+   Shared: image cards (find rest · journal · stores)
+   The card itself stays put; its photo zooms out from 110% when revealed.
+   ========================================================================= */
+.category-card.reveal,
+.journal-card.reveal,
+.store-card.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.category-card.reveal img,
+.journal-card.reveal img,
+.store-card.reveal img {
+  transform: scale(1.1);
+  transition: transform 1.35s var(--ease);
+}
+
+.category-card.reveal.is-visible img,
+.journal-card.reveal.is-visible img,
+.store-card.reveal.is-visible img {
+  transform: scale(1);
+}

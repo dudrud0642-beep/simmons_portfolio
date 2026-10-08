@@ -1,0 +1,401 @@
+/*
+ * SIMMONS PORTFOLIO — EVENT POPUP (popup.css)
+ * Desktop: ivory card floating at the bottom right. 900px and below: bottom sheet.
+ * Slide copy lives in index.html (<aside class="event-popup">); timing in main.js.
+ */
+.event-popup {
+  --popup-bg: #f4efe7;
+  --popup-ink: #171513;
+  --popup-muted: #7a7067;
+  --popup-line: rgba(23, 21, 19, 0.12);
+  --popup-footer: 40px; /* height of the bottom bar */
+  --popup-duration: 5s;
+
+  position: fixed;
+  z-index: 45;
+  right: 104px;
+  bottom: 24px;
+  width: 360px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--popup-bg);
+  color: var(--popup-ink);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  transition:
+    opacity 0.4s,
+    transform 0.6s var(--ease),
+    visibility 0.4s;
+}
+
+.event-popup.is-hidden {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+/* Story-style progress bars: the active bar fills over --popup-duration,
+   and main.js moves to the next slide when its animation ends. */
+.popup-progress {
+  position: absolute;
+  z-index: 2;
+  top: 14px;
+  right: 16px;
+  left: 16px;
+  display: flex;
+  gap: 4px;
+}
+
+.popup-progress i {
+  position: relative;
+  flex: 1;
+  height: 2px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.popup-progress i::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.popup-progress i.is-done::after {
+  transform: none;
+}
+
+.popup-progress i.is-active::after {
+  animation: popup-progress var(--popup-duration) linear forwards;
+}
+
+.event-popup.is-paused .popup-progress i.is-active::after {
+  animation-play-state: paused;
+}
+
+.event-popup.is-hidden .popup-progress i::after {
+  animation: none;
+}
+
+@keyframes popup-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Slides */
+.popup-viewport {
+  overflow: hidden;
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+}
+
+.event-popup.is-dragging .popup-viewport {
+  cursor: grabbing;
+}
+
+.popup-track {
+  display: flex;
+  transition: transform 0.55s var(--ease);
+}
+
+.event-popup.is-dragging .popup-track {
+  transition: none;
+}
+
+.popup-slide {
+  display: flex;
+  flex: 0 0 100%;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.popup-media {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: #2a2521;
+}
+
+.popup-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* Keeps the white progress bars readable on bright photos. */
+.popup-media::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 64px;
+  background: linear-gradient(rgba(0, 0, 0, 0.35), transparent);
+}
+
+.popup-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 22px 24px 22px;
+}
+
+.popup-eyebrow {
+  color: var(--popup-muted);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+}
+
+.popup-title {
+  margin: 10px 0 8px;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.03em;
+}
+
+.popup-text {
+  color: #4a443e;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.popup-meta {
+  display: grid;
+  gap: 4px;
+  margin: 12px 0 0;
+  font-size: 12px;
+}
+
+.popup-meta div {
+  display: flex;
+  gap: 12px;
+}
+
+.popup-meta dt {
+  min-width: 28px;
+  color: var(--popup-muted);
+}
+
+.popup-meta dd {
+  margin: 0;
+  font-weight: 500;
+}
+
+.popup-link {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: auto;
+  padding: 18px 0 4px;
+  border-bottom: 1px solid currentColor;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Arrows stay put while the slides move underneath. */
+.popup-controls {
+  position: absolute;
+  z-index: 2;
+  right: 20px;
+  bottom: calc(var(--popup-footer) + 18px);
+  display: flex;
+  gap: 6px;
+}
+
+.popup-controls button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--popup-line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--popup-ink);
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    background 0.25s,
+    color 0.25s;
+}
+
+.popup-controls button:hover {
+  background: var(--popup-ink);
+  color: var(--popup-bg);
+}
+
+.popup-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--popup-footer);
+  padding: 0 24px;
+  border-top: 1px solid var(--popup-line);
+}
+
+.popup-footer button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--popup-muted);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.popup-footer button:hover {
+  color: var(--popup-ink);
+}
+
+.popup-footer [data-popup-close] {
+  color: var(--popup-ink);
+  font-weight: 600;
+}
+
+/* Slide 3: coupon drawn in code instead of an image */
+.popup-coupon {
+  display: grid;
+  place-items: center;
+}
+
+.coupon {
+  display: flex;
+  width: 78%;
+  border-radius: 10px;
+  background: #e9dfd0;
+  color: #2a241f;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+}
+
+.coupon-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 18px 20px 16px;
+}
+
+.coupon-main small {
+  color: #7a6d62;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+}
+
+.coupon-main strong {
+  margin: 6px 0 4px;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 56px;
+  font-weight: 500;
+  font-variant-numeric: lining-nums;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+}
+
+.coupon-main strong span {
+  font-size: 0.5em;
+  letter-spacing: 0;
+}
+
+.coupon-main em {
+  color: #6b5f55;
+  font-size: 11px;
+  font-style: normal;
+}
+
+.coupon-stub {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  border-left: 1px dashed rgba(42, 36, 31, 0.35);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  writing-mode: vertical-rl;
+}
+
+/* Ticket notches cut into the dashed edge */
+.coupon-stub::before,
+.coupon-stub::after {
+  content: "";
+  position: absolute;
+  left: -8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #2a2521;
+}
+
+.coupon-stub::before {
+  top: -8px;
+}
+
+.coupon-stub::after {
+  bottom: -8px;
+}
+
+/* The quick-menu greeting would sit on top of the card, so hide it until the popup closes. */
+body.has-event-popup .quick-tooltip {
+  opacity: 0;
+  transform: translateX(12px);
+}
+
+/* Tablet & mobile: bottom sheet over a dimmed page */
+@media (max-width: 900px) {
+  body.has-event-popup {
+    overflow: hidden;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    z-index: 64;
+    inset: 0;
+    visibility: hidden;
+    background: rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    transition:
+      opacity 0.35s,
+      visibility 0.35s;
+  }
+
+  body.has-event-popup::before {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .event-popup {
+    --popup-footer: 44px;
+
+    z-index: 65;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    width: min(100%, 480px);
+    border-radius: 18px 18px 0 0;
+    box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.35);
+    transform: translateX(-50%);
+  }
+
+  .event-popup.is-hidden {
+    transform: translate(-50%, 100%);
+  }
+
+  .popup-body {
+    padding: 22px 22px 22px;
+  }
+
+  .popup-footer {
+    padding: 0 22px;
+  }
+}
+
+/* Short landscape screens: keep the whole sheet on screen. */
+@media (max-height: 600px) {
+  .popup-media {
+    aspect-ratio: 5 / 2;
+  }
+}

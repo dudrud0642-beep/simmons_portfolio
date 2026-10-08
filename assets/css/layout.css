@@ -315,7 +315,7 @@
 
 /* Footer ------------------------------------------------------------------ */
 .site-footer {
-  padding: 90px var(--pad) 30px;
+  padding: 64px var(--pad) 28px;
   background: #000;
   border-top: 1px solid var(--line);
 }
@@ -324,7 +324,7 @@
   display: flex;
   justify-content: space-between;
   align-items: start;
-  padding-bottom: 70px;
+  padding-bottom: 48px;
 }
 
 .footer-top .brand {
@@ -341,7 +341,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr) 1.6fr;
   gap: 40px;
-  padding: 55px 0;
+  padding: 40px 0;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
@@ -421,12 +421,12 @@
 
 @media (max-width: 600px) {
   .site-footer {
-    padding-top: 48px;
+    padding-top: 40px;
   }
 
   .footer-top {
     display: block;
-    padding-bottom: 32px;
+    padding-bottom: 28px;
   }
 
   .footer-top p {
@@ -436,7 +436,7 @@
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 28px;
-    padding: 36px 0;
+    padding: 28px 0;
   }
 
   .footer-bottom {

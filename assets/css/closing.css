@@ -5,10 +5,10 @@
  */
 .closing {
   display: grid;
-  min-height: 92svh;
+  min-height: 76svh;
   overflow: hidden;
   place-items: center;
-  padding: clamp(90px, 12vw, 170px) 0;
+  padding: clamp(64px, 8vw, 128px) 0;
   text-align: center;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 32%),
@@ -21,7 +21,7 @@
 }
 
 .closing-copy > .eyebrow {
-  margin-bottom: clamp(48px, 8vh, 86px);
+  margin-bottom: clamp(36px, 6vh, 64px);
   color: #a8a8a8;
 }
 
@@ -97,12 +97,12 @@
 
 @media (max-width: 600px) {
   .closing {
-    min-height: 60svh;
-    padding: 72px 0;
+    min-height: 52svh;
+    padding: 56px 0;
   }
 
   .closing-copy > .eyebrow {
-    margin-bottom: 36px;
+    margin-bottom: 28px;
   }
 
   .closing-copy {
